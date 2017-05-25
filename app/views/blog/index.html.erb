@@ -1,0 +1,30 @@
+<div width=900px align='center'>
+<h1>게시판</h1>
+<!--<form action="blog/create">-->
+<!--   <input type="text" name="p_title" placeholder="제목"><br><br>-->
+<!--   <textarea name="p_content"></textarea><br><br>-->
+<!--   <input type="file" name="p_image">-->
+<!--   <input type="submit"value="제출하기"><br></br>-->
+<!--</form>-->
+
+<%= form_tag("/blog/create",method:"get")do%>
+<!--<input type="text" name="p_title" placeholder="제목"/><br>-->
+<%= text_field_tag "text", nil, placeholder: "제목"%><br>
+<input type="text" name="p_content" placeholder="내용"/><br>
+<input type="submit" value="제출"><br><br>
+<%end%>
+
+<% @posts.each do |p| %>
+<li><%=p.title%> : <%=p.content%> <img src="<%=p.image.url%>">
+       <a href="/blog/destroy?id=<%=p.id%>">삭제</a>
+       <a href="/blog/edit?id=<%=p.id%>">수정</a>
+       <%=form_tag "/comment" do%>
+           <input type = "hidden" name = "blog_id" value = "<%=p.id%>">
+           <input type = "text" name = "comment">
+           <input type = "submit" value = "확인">
+       <% end %>
+</li>
+<%end%>
+
+<%= will_paginate @posts %>
+</div>
